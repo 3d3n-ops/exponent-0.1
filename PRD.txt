@@ -1,0 +1,173 @@
+# 📄 Product Requirements Document (PRD)
+
+**Project Name:** `Exponent-ML`  
+**Tagline:** *Prompt + Dataset → Trained + Deployed ML Models in One Line*  
+**Owner:** Eden Etuk  
+**Last Updated:** June 2025
+
+---
+
+## 🧭 Overview
+
+`Exponent-ML` is a CLI + Python tool that lets anyone create, train, and deploy machine learning models by describing their task and uploading a dataset. The tool uses LLMs to generate runnable training pipelines based on both user intent and real dataset structure, with optional deployment to GitHub or cloud platforms.
+
+The tool is also compatible with notebook environments like **Google Colab** or **Kaggle** through a high-level Python API.
+
+---
+
+## 🔄 CLI Wizard Flow (`init`)
+
+The `init` command guides users through an interactive setup:
+
+1. Ask for the ML task in natural language
+2. Ask for dataset path (CSV or JSON)
+3. Analyze the dataset structure (column names + types)
+4. Upload dataset to S3
+5. Send dataset + task to an LLM for tailored code generation
+6. Output files: `model.py`, `train.py`, `predict.py`
+
+```bash
+$ exponent-ml init
+
+🧠 Let's set up your ML project.
+💬 What task do you want to solve?
+📁 Dataset path?
+📊 Columns detected: ['subject', 'body', 'label']
+🤖 Generating code with LLM...
+✅ Project created at ~/.exponent-ml/...
+```
+
+---
+
+## 🎯 Goals
+
+- Let users build ML pipelines without writing code
+- Use LLMs + real data to generate accurate model scripts
+- Work in CLI **and** notebook environments
+- Allow one-click deployment to GitHub or AWS Lambda
+- Clean codebase, reusable architecture
+
+---
+
+## 🧠 New Architecture: Modular for CLI + Notebook Support
+
+To support CLI, notebooks, and future web/server interfaces, the project will follow this structure:
+
+```
+exponent_ml/
+├── cli/               ← CLI interface (Typer)
+├── api/               ← Python/Colab/Kaggle interface
+├── core/              ← Core logic (Claude, S3, Modal, Git, etc.)
+```
+
+| Layer   | Role                            | Used In                     |
+|---------|----------------------------------|------------------------------|
+| `cli/`  | Typer-powered terminal interface | Terminal users               |
+| `api/`  | Python function wrapper          | Colab, Kaggle, Jupyter       |
+| `core/` | Logic layer (S3, Modal, AI, etc) | Shared by CLI + Python users |
+
+---
+
+## Example Notebook Usage
+
+```python
+from exponent_ml.api import generate_model_pipeline
+
+generate_model_pipeline(
+    prompt="Predict email spam based on subject and body",
+    dataset_path="./spam.csv"
+)
+```
+
+---
+
+## 🧱 Key Features
+
+| Feature           | Description |
+|------------------|-------------|
+| `init`           | Interactive wizard to generate ML project code |
+| `upload-dataset` | Upload dataset to S3 |
+| `train`          | Train model in cloud (Modal) |
+| `deploy`         | Push model code to GitHub or Lambda |
+| `api/` module    | Exposes same functionality to Colab/Notebook |
+| `.env` support   | Load secrets for Claude, Modal, AWS, etc. |
+
+---
+
+## 📁 Generated Project Example
+
+```
+~/.exponent-ml/<project-id>/
+├── model.py
+├── train.py
+├── predict.py
+├── README.md
+└── (optionally) dataset.csv
+```
+
+---
+
+## 🔐 Integrations
+
+| Service     | Usage                                |
+|-------------|--------------------------------------|
+| Claude | Prompt → Code generation             |
+| AWS S3      | Upload dataset and store generated code |
+| Modal       | Train ML jobs in the cloud            |
+| GitHub      | Deploy model repo                     |
+| AWS Lambda  | Optional model deployment target      |
+
+---
+
+## 📅 Development Milestones
+
+| Week | Milestone |
+|------|-----------|
+| 1    | ✅ Scaffold project structure (CLI + API + Core) |
+| 2    | ✅ Implement CLI wizard (`init`) with LLM integration |
+| 3    | Add training with Modal or local fallback |
+| 4    | Add GitHub & AWS Lambda deploy command |
+| 5    | Add notebook compatibility + publish on PyPI |
+| 6    | Launch GitHub repo + announce waitlist |
+
+---
+
+## 🧠 LLM Prompt Format
+
+```markdown
+You are an ML engineer. Generate code to build a model using this dataset and task:
+
+**Task**: Predict whether an email is spam or not based on subject and body.
+
+**Columns**:
+- subject: string
+- body: string
+- label: binary
+
+The dataset is at: https://s3.amazonaws.com/bucket/spam.csv
+
+Generate:
+1. model.py
+2. train.py
+3. predict.py
+```
+
+---
+
+## 🚨 Risks & Mitigations
+
+| Risk | Mitigation |
+|------|------------|
+| Poor codegen if dataset not uploaded | Analyze + validate columns before sending |
+| Hard to support notebooks if too CLI-centric | Use shared `core/` logic and separate `api/` |
+| Unclear errors from cloud providers | Add rich error logging and retry prompts |
+
+---
+
+## ✨ Long-Term Vision
+
+- Add Hugging Face & Vercel deployment targets
+- Add visual data explorer before codegen
+- Fine-tune models via prompt or config
+- Multi-modal support (image, audio, tabular)
+- Integrated web frontend and user accounts
