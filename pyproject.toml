@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "exponent-ml"
-version = "0.1.0"
+version = "0.1.1"
 description = "Claude Code for ML developers. Build and deploy ML models from your terminal. Accelerate your ML pipeline with Exponent."
 authors = [
     {name = "Eden Etuk", email = "edens.etuk@gmail.com"}
