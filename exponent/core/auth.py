@@ -154,6 +154,12 @@ class AuthManager:
     
     def _setup_providers(self):
         """Setup OAuth providers based on environment variables"""
+        # Load from .env file if it exists
+        env_path = Path.cwd() / ".env"
+        if env_path.exists():
+            from dotenv import load_dotenv
+            load_dotenv(env_path)
+        
         redirect_uri = "http://localhost:8080"
         
         # Google OAuth

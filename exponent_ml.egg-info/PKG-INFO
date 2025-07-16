@@ -1,15 +1,14 @@
 Metadata-Version: 2.4
 Name: exponent-ml
 Version: 0.1.0
-Summary: Build ML models from the CLI using LLMs and Modal
-Author-email: Eden Etuk <eden@example.com>
-Maintainer-email: Eden Etuk <eden@example.com>
+Summary: Claude Code for ML developers. Build and deploy ML models from your terminal. Accelerate your ML pipeline with Exponent.
+Author-email: Eden Etuk <edens.etuk@gmail.com>
+Maintainer-email: Eden Etuk <edens.etuk@gmail.com>
 License: MIT
-Project-URL: Homepage, https://github.com/yourusername/exponent-ml
-Project-URL: Repository, https://github.com/yourusername/exponent-ml
-Project-URL: Documentation, https://exponent-ml.readthedocs.io
-Project-URL: Issues, https://github.com/yourusername/exponent-ml/issues
-Project-URL: Changelog, https://github.com/yourusername/exponent-ml/blob/main/CHANGELOG.md
+Project-URL: Homepage, https://github.com/3d3n-ops/exponent-0.1
+Project-URL: Repository, https://github.com/3d3n-ops/exponent-0.1
+Project-URL: Documentation, https://exponent-ml.vercel.app/docs
+Project-URL: Issues, https://github.com/3d3n-ops/exponent-0.1/issues
 Keywords: machine-learning,cli,ai,ml,automation,modal,anthropic
 Classifier: Development Status :: 4 - Beta
 Classifier: Intended Audience :: Developers
@@ -86,6 +85,12 @@ Create a `.env` file with your API keys:
 # Required
 ANTHROPIC_API_KEY=your_anthropic_api_key
 
+# Authentication (OAuth)
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GITHUB_CLIENT_ID=your_github_client_id
+GITHUB_CLIENT_SECRET=your_github_client_secret
+
 # Optional (for cloud features)
 AWS_ACCESS_KEY_ID=your_aws_access_key
 AWS_SECRET_ACCESS_KEY=your_aws_secret_key
@@ -96,11 +101,53 @@ MODAL_TOKEN_SECRET=your_modal_token_secret
 GITHUB_TOKEN=your_github_token
 ```
 
-**Note**: Only `ANTHROPIC_API_KEY` is required. Other services are optional for cloud features.
+**Note**: Only `ANTHROPIC_API_KEY` is required. OAuth credentials are needed for authentication.
+
+### Authentication Setup
+
+Before using Exponent-ML, you need to set up OAuth authentication:
+
+#### Option 1: Use the setup script
+```bash
+# Set up Google OAuth
+python scripts/setup_oauth.py google
+
+# Set up GitHub OAuth  
+python scripts/setup_oauth.py github
+
+# Check your configuration
+python scripts/setup_oauth.py check
+```
+
+#### Option 2: Manual setup
+1. **Google OAuth**: Go to [Google Cloud Console](https://console.developers.google.com/)
+   - Create a new project
+   - Enable Google+ API
+   - Create OAuth 2.0 credentials
+   - Set redirect URI to `http://localhost:8080`
+
+2. **GitHub OAuth**: Go to [GitHub OAuth Apps](https://github.com/settings/developers)
+   - Create a new OAuth App
+   - Set callback URL to `http://localhost:8080`
+
+3. Add credentials to your `.env` file:
+```bash
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GITHUB_CLIENT_ID=your_github_client_id
+GITHUB_CLIENT_SECRET=your_github_client_secret
+```
 
 ### Basic Usage
 
 ```bash
+# Login with OAuth
+exponent login --provider google
+exponent login --provider github
+
+# Check authentication status
+exponent status
+
 # Interactive wizard
 exponent init
 

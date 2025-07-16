@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "exponent-ml"
 version = "0.1.0"
-description = "Build ML models from the CLI using LLMs and Modal"
+description = "Claude Code for ML developers. Build and deploy ML models from your terminal. Accelerate your ML pipeline with Exponent."
 authors = [
-    {name = "Eden Etuk", email = "eden@example.com"}
+    {name = "Eden Etuk", email = "edens.etuk@gmail.com"}
 ]
 maintainers = [
-    {name = "Eden Etuk", email = "eden@example.com"}
+    {name = "Eden Etuk", email = "edens.etuk@gmail.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.8"
@@ -70,11 +70,11 @@ docs = [
 exponent = "exponent.main:app"
 
 [project.urls]
-Homepage = "https://github.com/yourusername/exponent-ml"
-Repository = "https://github.com/yourusername/exponent-ml"
-Documentation = "https://exponent-ml.readthedocs.io"
-Issues = "https://github.com/yourusername/exponent-ml/issues"
-Changelog = "https://github.com/yourusername/exponent-ml/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/3d3n-ops/exponent-0.1"
+Repository = "https://github.com/3d3n-ops/exponent-0.1"
+Documentation = "https://exponent-ml.vercel.app/docs"
+Issues = "https://github.com/3d3n-ops/exponent-0.1/issues"
+
 
 [tool.setuptools.packages.find]
 where = ["."]
